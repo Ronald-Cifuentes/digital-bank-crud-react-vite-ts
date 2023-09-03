@@ -1,3 +1,4 @@
-export interface AppProps {
-  dataTestId?: string
-}
+export interface AppProps
+  extends Partial<{
+    dataTestId: string
+  }> {}

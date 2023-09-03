@@ -1,6 +1,9 @@
 import { cleanup, render, screen } from '@testing-library/react'
 import App from './App'
 
+jest.mock('swiper/react', () => ({ Swiper: () => <div />, SwiperSlide: () => <div /> }))
+jest.mock('swiper/modules', () => ({}))
+
 describe('<App />', () => {
   beforeEach(() => {
     cleanup()
