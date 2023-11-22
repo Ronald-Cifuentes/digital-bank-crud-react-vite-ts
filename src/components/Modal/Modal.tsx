@@ -1,9 +1,18 @@
 import { ChangeEvent, FC, MouseEvent, useState } from 'react'
 import { BTNSutmit, FormGroup, Input, ModalContainer, ModalX, Select } from './Modal.styled'
 import { ModalProps } from './interfaces'
+import { Row } from '../Table/interfaces'
+import { serviceAddEdit } from '../../services'
 
-const Modal: FC<ModalProps> = ({ dataTestId = 'modal', closeModal, onSubmit, defaultValue }) => {
-  const [formState, setFormState] = useState(
+const Modal: FC<ModalProps> = ({
+  dataTestId = 'modal',
+  closeModal,
+  onSubmit,
+  defaultValue,
+  itemId,
+  type,
+}) => {
+  const [formState, setFormState] = useState<Row>(
     defaultValue || {
       user: '',
       birthday: '',
@@ -36,6 +45,8 @@ const Modal: FC<ModalProps> = ({ dataTestId = 'modal', closeModal, onSubmit, def
     e.preventDefault()
 
     if (!validateForm()) return
+
+    serviceAddEdit(String(process.env.VITE_URL_BASE), type, formState, itemId)
 
     onSubmit && onSubmit(formState)
 

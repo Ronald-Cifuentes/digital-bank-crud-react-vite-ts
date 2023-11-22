@@ -1,71 +1,22 @@
-import { FC, useState } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import { AppProps } from './interfaces'
-import { AppContainer, Btn } from './App.styled'
-
-import 'swiper/swiper-bundle.css'
-import Table from '../Table'
-import Modal from '../Modal'
+import { AppContainer } from './App.styled'
 import { Row } from '../Table/interfaces'
-
-const initRows: Row[] = [
-  {
-    user: 'Andres',
-    birthday: '1990-10-02',
-    gender: 'male',
-  },
-  {
-    user: 'Yohana',
-    birthday: '1990-10-02',
-    gender: 'female',
-  },
-  {
-    user: 'Nikita',
-    birthday: '1990-10-02',
-    gender: 'not-defined',
-  },
-]
+import SectionHome from '../SectionHome'
+import { serviceGet } from '../../services'
 
 const App: FC<AppProps> = ({ dataTestId = 'app' }) => {
-  const [modalOpen, setModalOpen] = useState(false)
-  const [rows, setRows] = useState(initRows)
-  const [rowToEdit, setRowToEdit] = useState<number | null>(null)
-
-  const handleDeleteRow = (targetIndex: number) => {
-    setRows(rows.filter((_, idx: number) => idx !== targetIndex))
-  }
-
-  const handleEditRow = (idx: number) => {
-    setRowToEdit(idx)
-
-    setModalOpen(true)
-  }
-
-  const handleSubmit = (newRow: Row) => {
-    rowToEdit === null
-      ? setRows([...rows, newRow])
-      : setRows(
-          rows.map((currRow: Row, idx: number) => {
-            if (idx !== rowToEdit) return currRow
-
-            return newRow
-          })
-        )
-  }
-
+  const ref = useRef(0)
+  const [data, setData] = useState<Row[]>([])
+  useEffect(() => {
+    if (!ref.current) {
+      ref.current += 1
+      serviceGet(String(process.env.VITE_URL_BASE), setData)
+    }
+  }, [])
   return (
     <AppContainer data-testid={dataTestId}>
-      <Table rows={rows} deleteRow={handleDeleteRow} editRow={handleEditRow} />
-      <Btn onClick={() => setModalOpen(true)}>Add</Btn>
-      {modalOpen && (
-        <Modal
-          closeModal={() => {
-            setModalOpen(false)
-            setRowToEdit(null)
-          }}
-          onSubmit={handleSubmit}
-          defaultValue={rowToEdit !== null && rows[rowToEdit]}
-        />
-      )}
+      {data.length > 0 && <SectionHome initRows={data} />}
     </AppContainer>
   )
 }

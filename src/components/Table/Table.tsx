@@ -12,7 +12,7 @@ import {
   DeleteBtn,
   EditBtn,
 } from './Table.styled'
-import { TableProps } from './interfaces'
+import { Row, TableProps } from './interfaces'
 
 const Table: FC<TableProps> = ({ dataTestId = 'table', rows, deleteRow, editRow }) => {
   return (
@@ -27,7 +27,7 @@ const Table: FC<TableProps> = ({ dataTestId = 'table', rows, deleteRow, editRow 
           </TRX>
         </THEADX>
         <TBODY>
-          {rows?.map((row, idx) => {
+          {rows?.map((row: Row, idx: number) => {
             const genderText = row.gender.charAt(0).toUpperCase() + row.gender.slice(1)
 
             return (
@@ -39,8 +39,8 @@ const Table: FC<TableProps> = ({ dataTestId = 'table', rows, deleteRow, editRow 
                 </TDX>
                 <TDX>
                   <ACTIONS>
-                    <DeleteBtn onClick={() => deleteRow && deleteRow(idx)} />
-                    <EditBtn onClick={() => editRow && editRow(idx)} />
+                    <DeleteBtn onClick={() => deleteRow && deleteRow(idx, row.id)} />
+                    <EditBtn onClick={() => editRow && editRow(idx, row.id)} />
                   </ACTIONS>
                 </TDX>
               </TRX>

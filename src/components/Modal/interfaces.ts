@@ -5,4 +5,6 @@ export type ModalProps = Partial<{
   closeModal: () => void
   onSubmit: (newRow: Row) => void
   defaultValue: false | Row
+  itemId?: number | null
+  type: string
 }>

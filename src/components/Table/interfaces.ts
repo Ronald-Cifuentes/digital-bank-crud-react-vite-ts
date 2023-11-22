@@ -1,4 +1,5 @@
 export interface Row {
+  id?: number
   user: string
   birthday: string
   gender: string
@@ -7,6 +8,6 @@ export interface Row {
 export type TableProps = Partial<{
   dataTestId: string
   rows: Row[]
-  deleteRow: (item: number) => void
-  editRow: (item: number) => void
+  deleteRow: (local_id?: number, remote_id?: number) => void
+  editRow: (local_id?: number, remote_id?: number) => void
 }>
