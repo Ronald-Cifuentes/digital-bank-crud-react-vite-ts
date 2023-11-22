@@ -37,9 +37,9 @@ const Modal: FC<ModalProps> = ({ dataTestId = 'modal', closeModal, onSubmit, def
 
     if (!validateForm()) return
 
-    onSubmit(formState)
+    onSubmit && onSubmit(formState)
 
-    closeModal()
+    closeModal && closeModal()
   }
 
   return (
@@ -47,7 +47,10 @@ const Modal: FC<ModalProps> = ({ dataTestId = 'modal', closeModal, onSubmit, def
       className='modal-container'
       data-testid={dataTestId}
       onClick={(e: MouseEvent<HTMLDivElement>) => {
-        if (e.target.className?.includes('modal-container')) closeModal()
+        const target = e.target
+        if (target instanceof HTMLElement) {
+          if (target.className?.includes('modal-container')) closeModal && closeModal()
+        }
       }}
     >
       <ModalX>

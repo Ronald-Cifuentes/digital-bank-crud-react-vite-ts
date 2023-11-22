@@ -1,8 +1,8 @@
 import { Row } from '../Table/interfaces'
 
-export interface ModalProps {
-  dataTestId?: string
+export type ModalProps = Partial<{
+  dataTestId: string
   closeModal: () => void
   onSubmit: (newRow: Row) => void
   defaultValue: false | Row
-}
+}>
