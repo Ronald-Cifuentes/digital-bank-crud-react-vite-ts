@@ -4,7 +4,7 @@ import { AppContainer } from './App.styled'
 import { Row } from '../Table/interfaces'
 import SectionHome from '../SectionHome'
 import { serviceGet } from '../../services'
-
+import Loading from '../Loading'
 const App: FC<AppProps> = ({ dataTestId = 'app' }) => {
   const ref = useRef(0)
   const [data, setData] = useState<Row[]>([])
@@ -16,7 +16,7 @@ const App: FC<AppProps> = ({ dataTestId = 'app' }) => {
   }, [])
   return (
     <AppContainer data-testid={dataTestId}>
-      {data.length > 0 && <SectionHome initRows={data} />}
+      {data.length > 0 ? <SectionHome initRows={data} /> : <Loading />}
     </AppContainer>
   )
 }
